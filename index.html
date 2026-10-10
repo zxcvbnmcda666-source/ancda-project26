@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="lfjl.svg">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ffffff">
+  <title>ANCDA - 来访记录</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --text: #202020;
+      --muted: #777777;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      min-height: 100vh;
+      background: #fff;
+      color: var(--text);
+      font-family: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+      display: grid;
+      place-items: center;
+      padding: 32px 20px;
+    }
+    main {
+      width: min(100%, 1000px);
+      min-height: calc(100vh - 64px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 0;
+    }
+    .eyebrow {
+      margin: 0 0 22px;
+      font-size: 12px;
+      letter-spacing: .22em;
+      color: #888;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(27px, 4.5vw, 42px);
+      line-height: 1.35;
+      font-weight: 650;
+      letter-spacing: .025em;
+    }
+    .subtitle {
+      margin: 16px 0 42px;
+      color: var(--muted);
+      font-size: clamp(14px, 2vw, 16px);
+      line-height: 1.8;
+    }
+    .counter-wrap {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: visible;
+    }
+    .counter {
+      display: block;
+      width: min(760px, 94vw);
+      height: auto;
+      image-rendering: pixelated;
+    }
+    .caption {
+      margin: 34px 0 0;
+      color: #777;
+      font-size: 13px;
+      letter-spacing: .08em;
+    }
+    .music-button {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      z-index: 10;
+      min-width: 88px;
+      height: 58px;
+      padding: 0 22px;
+      border: 1px solid #e5e5e5;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.96);
+      color: #202020;
+      font: inherit;
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      cursor: pointer;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, .07);
+      transition: background .2s ease, transform .2s ease, border-color .2s ease;
+    }
+    .music-button:hover {
+      background: #f7f7f7;
+      border-color: #cfcfcf;
+      transform: translateY(-1px);
+    }
+    .music-button:active { transform: translateY(0); }
+    .music-button:focus-visible {
+      outline: 2px solid #777;
+      outline-offset: 3px;
+    }
+    .music-button[aria-pressed="true"] {
+      background: #202020;
+      border-color: #202020;
+      color: #fff;
+    }
+    .footer {
+      margin: 54px 0 0;
+      color: #b0b0b0;
+      font-size: 11px;
+      letter-spacing: .12em;
+    }
+    @media (max-width: 520px) {
+      main { min-height: calc(100vh - 40px); }
+      .subtitle { margin-bottom: 30px; }
+      .music-button { top: 14px; right: 14px; min-width: 76px; height: 50px; padding: 0 16px; font-size: 16px; border-radius: 14px; }
+      .counter { width: 96vw; }
+      .caption { margin-top: 26px; }
+    }
+  </style>
+</head>
+<body>
+  <audio id="bgm" src="./xsdgm.mp3" loop preload="none"></audio>
+  <button class="music-button" id="musicButton" type="button" aria-pressed="false">音乐</button>
+  <main>
+    <p class="eyebrow">ANCDA · PROJECT 026</p>
+    <h1>本站目前有多少次访问？</h1>
+    <p class="subtitle">每一次到访，都会在这里留下记录</p>
+
+    <div class="counter-wrap">
+      <img
+        class="counter"
+        src="https://count.getloli.com/@ANCDA-ZXCVBNM?theme=booru-lewd&amp;padding=7&amp;offset=3&amp;align=center&amp;scale=2.0&amp;pixelated=1&amp;darkmode=auto"
+        alt="ANCDA 累计访问次数计数器"
+        loading="eager"
+      >
+    </div>
+
+    <p class="caption">累计访问次数</p>
+    <p class="footer">A SMALL CORNER OF ANCDA</p>
+  </main>
+  <script>
+    const bgm = document.getElementById('bgm');
+    const musicButton = document.getElementById('musicButton');
+
+    musicButton.addEventListener('click', async () => {
+      if (bgm.paused) {
+        try {
+          await bgm.play();
+          musicButton.textContent = '暂停';
+          musicButton.setAttribute('aria-pressed', 'true');
+        } catch (error) {
+          musicButton.textContent = '音乐';
+          musicButton.setAttribute('aria-pressed', 'false');
+          alert('音乐暂时无法播放，请确认 xsdgm.mp3 与 index.html 放在同一个文件夹中。');
+        }
+      } else {
+        bgm.pause();
+        musicButton.textContent = '音乐';
+        musicButton.setAttribute('aria-pressed', 'false');
+      }
+    });
+  </script>
+</body>
+</html>
